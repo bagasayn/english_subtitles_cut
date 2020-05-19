@@ -5,15 +5,19 @@ import sys as s
 bad_words = ['-->']
 
 
-with open('{0}'.format(s.argv[1])) as oldfile, open('{0}'.format(s.argv[2]), 'w') as newfile:
+with open('{0}'.format(s.argv[1]),'r') as oldfile, open('{0}'.format(s.argv[2]), 'w') as newfile, open('list_time.txt', 'a') as list_time:
     for line in oldfile:
-        if not any(bad_word in line for bad_word in bad_words):
-            newfile.write(line)
+		find = re.findall(r'~',line)
+		if any(find):
+			res = re.findall(r'\d{2}:\d{2}:\d{2}',line) 
+			
+			print(' '.join(map(str,res)))
+			list_time.writelines(' '.join(map(str,res)) + '\n')
+			print(res)
+			
+		'''if not any(bad_word in line for bad_word in bad_words):
+            newfile.write(line)'''
+   
 
 
-'''with open('newfile.txt') as result:
-    uniqlines = set(result.readlines())
-    with open('sub_out.txt', 'w') as rmdup:
-        mylst = map(lambda each: each.strip("&gt;&gt;"), uniqlines)
-        print(mylst)
-        rmdup.writelines(set(mylst))'''
+
